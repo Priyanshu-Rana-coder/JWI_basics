@@ -16,20 +16,9 @@ const login =async(req,res)=>{
 }
  
 const dashboard= async(req,res)=>{
-    const authHeader=req.headers.authorization
-    if (!authHeader || !authHeader.startsWith('Bearer ')){
-        throw new CustomAPIError('No token provided',400) 
-    }
-    const token=authHeader.split(' ')[1]
-    try {
-        const decoded=jwt.verify(token,process.env.JWT_SECRET)
-    } catch (error) {
-        throw new CustomAPIError('No token provided',400) 
-    }
-
-
+    console.log(req.user)
     const luckyNumber=Math.floor(Math.random()*100)
-    res.status(200).json({msg:`Hello, John Doe`, secret:`Here is your lcuky number ${luckyNumber}`})
+    res.status(200).json({msg:`Hello,${req.user.username}`, secret:`Here is your lcuky number ${luckyNumber}`})
 }
 
 module.exports={login,dashboard}
